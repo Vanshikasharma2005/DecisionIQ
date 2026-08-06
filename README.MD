@@ -1,16 +1,51 @@
-# React + Vite
+# 🧠 DecisionIQ
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Stop Searching. Start Deciding.**
 
-Currently, two official plugins are available:
+DecisionIQ is an AI-powered **Decision Intelligence Module** for e-commerce platforms like Flipkart and Meesho. It helps customers make faster and more confident purchase decisions without leaving the platform.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚨 Problem
 
-## React Compiler
+Customers often struggle to choose the right product because of:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Too many options
+- Scattered information (YouTube, Reddit, blogs)
+- Generic recommendations
+- Decision fatigue
 
-## Expanding the ESLint configuration
+This leads to longer buying journeys and lower customer confidence.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 💡 Solution
+
+DecisionIQ acts as an intelligent **Decision Coach** by understanding user needs and recommending the most suitable products with clear explanations.
+
+### Key Features
+
+- 🧠 Personalized Decision Coach
+- ⭐ Confidence Score
+- 📊 Smart Product Comparison
+- 📝 AI Review Summary
+- 💰 Better Value Alternatives
+
+## 🏗️ Tech Stack
+
+- **Frontend:** React + Vite
+- **Backend:** Java + Spring Boot
+- **Database:** MySQL
+- **Data:** Public Product & Review Datasets
+
+## 📂 Project Structure
+
+DecisionIQ/
+├── frontend/
+├── backend/
+├── datasets/
+├── database/
+├── docs/
+└── README.md
+
+## 🎯 Vision
+
+DecisionIQ is **not another shopping platform**.
+
+It is a reusable **Decision Intelligence Layer** that helps e-commerce platforms provide transparent, personalized, and explainable product recommendations.
