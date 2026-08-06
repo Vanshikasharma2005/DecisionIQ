@@ -1,6 +1,7 @@
 package core.engine;
 
 import core.model.Product;
+import core.model.RecommendationResult;
 import core.model.UserPreference;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,21 +13,30 @@ public class DecisionEngine {
 
     private ScoreCalculator scoreCalculator;
 
+    private RecommendationExplainer explainer;
+
+
 
     public DecisionEngine(){
 
-        scoreCalculator = new ScoreCalculator();
+        scoreCalculator =
+                new ScoreCalculator();
+
+        explainer =
+                new RecommendationExplainer();
     }
 
 
 
-    public List<Product> recommend(
+    public List<RecommendationResult> recommend(
             List<Product> products,
             UserPreference preference
     ){
 
-        List<Product> filteredProducts =
+
+        List<RecommendationResult> results =
                 new ArrayList<>();
+
 
 
         for(Product product : products){
@@ -41,27 +51,42 @@ public class DecisionEngine {
                     <= preference.getBudget()){
 
 
-                filteredProducts.add(product);
+                double score =
+                        scoreCalculator.calculateScore(
+                                product,
+                                preference
+                        );
+
+
+                List<String> reasons =
+                        explainer.explain(
+                                product,
+                                preference
+                        );
+
+
+                results.add(
+                        new RecommendationResult(
+                                product,
+                                score,
+                                reasons
+                        )
+                );
             }
         }
 
 
 
-        filteredProducts.sort(
+        results.sort(
 
                 Comparator.comparingDouble(
-                        (Product product) ->
-
-                                scoreCalculator.calculateScore(
-                                        product,
-                                        preference
-                                )
-
-                ).reversed()
+                        RecommendationResult::getScore
+                )
+                .reversed()
 
         );
 
 
-        return filteredProducts;
+        return results;
     }
 }

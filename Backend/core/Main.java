@@ -1,11 +1,17 @@
 package core;
 
+
 import core.engine.DecisionEngine;
 import core.model.Product;
+import core.model.RecommendationResult;
 import core.model.UserPreference;
 import core.repository.CSVProductReader;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
 
-import java.util.*;
+
 
 public class Main {
 
@@ -16,15 +22,19 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
 
+
         System.out.println("==============================");
         System.out.println("       Welcome to DecisionIQ");
         System.out.println("==============================");
 
 
+
         System.out.print("Enter your budget: ");
         double budget = scanner.nextDouble();
 
+
         scanner.nextLine();
+
 
 
         System.out.print("Enter Category: ");
@@ -36,6 +46,7 @@ public class Main {
                 new CSVProductReader();
 
 
+
         List<Product> products =
                 reader.readProducts(
                         "Datasets/products.csv"
@@ -45,6 +56,7 @@ public class Main {
 
         Set<String> availableFeatures =
                 new HashSet<>();
+
 
 
         for(Product product : products){
@@ -65,6 +77,22 @@ public class Main {
 
 
 
+
+        if(availableFeatures.isEmpty()){
+
+
+            System.out.println(
+                    "No products found for this category."
+            );
+
+
+            scanner.close();
+            return;
+        }
+
+
+
+
         UserPreference preference =
                 new UserPreference(
                         budget,
@@ -73,12 +101,14 @@ public class Main {
 
 
 
-        System.out.println("\nSet feature importance (0-100)");
+
+        System.out.println(
+                "\nSet feature importance (0-100)"
+        );
 
 
 
-        for(String feature :
-                availableFeatures){
+        for(String feature : availableFeatures){
 
 
             System.out.print(
@@ -90,6 +120,7 @@ public class Main {
                     scanner.nextInt();
 
 
+
             preference.addPreference(
                     feature,
                     importance
@@ -98,11 +129,14 @@ public class Main {
 
 
 
+
         DecisionEngine engine =
                 new DecisionEngine();
 
 
-        List<Product> recommendations =
+
+
+        List<RecommendationResult> recommendations =
                 engine.recommend(
                         products,
                         preference
@@ -110,30 +144,102 @@ public class Main {
 
 
 
-        System.out.println("\n==============================");
-        System.out.println(" Top Recommendations");
-        System.out.println("==============================");
+
+        System.out.println(
+                "\n=============================="
+        );
+
+
+        System.out.println(
+                " Top Recommendations"
+        );
+
+
+        System.out.println(
+                "=============================="
+        );
+
+
+
+        if(recommendations.isEmpty()){
+
+
+            System.out.println(
+                    "No products available within your budget."
+            );
+
+
+            scanner.close();
+            return;
+        }
+
+
 
 
         int rank = 1;
 
 
-        for(Product product :
+
+        for(RecommendationResult result :
                 recommendations){
 
 
+
             System.out.println(
-                    "Rank #" + rank++
+                    "\nRank #" + rank++
             );
 
 
-            System.out.println(product);
+
+            System.out.println(
+                    result.getProduct()
+            );
 
 
-            System.out.println();
+
+            System.out.println(
+                    "Decision Score : "
+                    + String.format(
+                            "%.2f",
+                            result.getScore()
+                    )
+            );
+
+
+
+            System.out.println(
+                    "\nWhy selected:"
+            );
+
+
+
+            if(result.getReasons().isEmpty()){
+
+
+                System.out.println(
+                        "No strong matching features found."
+                );
+
+            }
+            else{
+
+
+                for(String reason :
+                        result.getReasons()){
+
+
+                    System.out.println(
+                            "✓ " + reason
+                    );
+                }
+            }
+
+
+
+            System.out.println(
+                    "------------------------------"
+            );
         }
-
-
         scanner.close();
     }
 }
