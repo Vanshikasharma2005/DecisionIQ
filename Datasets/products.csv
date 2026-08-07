@@ -1,11 +1,11 @@
 id,name,brand,category,price,features
-1,ProBook 14,HP,Laptop,45000,performance:90|battery:85|price:90
-2,IdeaPad Slim 5,Lenovo,Laptop,52000,performance:85|battery:90|price:80
-3,VivoBook 15,ASUS,Laptop,48000,performance:88|battery:82|price:85
-4,Inspiron 15,Dell,Laptop,55000,performance:92|battery:80|price:75
-5,Aspire 5,Acer,Laptop,42000,performance:82|battery:88|price:95
-6,Galaxy Book,Samsung,Laptop,60000,performance:90|battery:95|price:65
-7,ThinkPad E14,Lenovo,Laptop,58000,performance:94|battery:88|price:70
-8,MacBook Air,Apple,Laptop,85000,performance:98|battery:98|price:45
-9,Pavilion 14,HP,Laptop,50000,performance:87|battery:84|price:82
-10,ZenBook 14,ASUS,Laptop,65000,performance:96|battery:92|price:60
+1,ProBook 14,HP,Laptop,45000,performance:90|battery:85|display:82|value:90
+2,IdeaPad Slim 5,Lenovo,Laptop,52000,performance:85|battery:90|display:88|value:86
+3,VivoBook 15,ASUS,Laptop,48000,performance:88|battery:82|display:84|value:88
+4,Inspiron 15,Dell,Laptop,55000,performance:92|battery:80|display:86|value:82
+5,Aspire 5,Acer,Laptop,42000,performance:82|battery:88|display:80|value:94
+6,Galaxy Book,Samsung,Laptop,60000,performance:90|battery:95|display:92|value:80
+7,ThinkPad E14,Lenovo,Laptop,58000,performance:94|battery:88|display:85|value:84
+8,MacBook Air,Apple,Laptop,85000,performance:98|battery:98|display:96|value:70
+9,Pavilion 14,HP,Laptop,50000,performance:87|battery:84|display:83|value:89
+10,ZenBook 14,ASUS,Laptop,65000,performance:96|battery:92|display:94|value:78

@@ -7,6 +7,7 @@ import DecisionIQ.Backend.model.UserPreference;
 
 public class ScoreCalculator {
 
+
     public double calculateScore(
             Product product,
             UserPreference preference
@@ -15,26 +16,36 @@ public class ScoreCalculator {
         double totalScore = 0;
         double totalWeight = 0;
 
+
         for (Map.Entry<String, Integer> entry :
                 preference.getPreferences().entrySet()) {
 
+
             String featureName = entry.getKey();
+
 
             int userImportance = entry.getValue();
 
-            int productScore =
+
+            double productScore =
                     product.getFeatureScore(featureName);
+
 
             totalScore +=
                     productScore * userImportance;
 
+
             totalWeight += userImportance;
+
         }
+
 
         if (totalWeight == 0) {
             return 0;
         }
 
+
         return totalScore / totalWeight;
     }
+
 }

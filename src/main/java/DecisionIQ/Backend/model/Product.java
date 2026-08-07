@@ -8,70 +8,70 @@ public class Product {
     private String name;
     private String brand;
     private String category;
-    private double price;
+    private double rating;
     private List<Feature> features;
+
+
+    public Product() {
+    }
+
 
     public Product(
             int id,
             String name,
             String brand,
             String category,
-            double price,
+            double rating,
             List<Feature> features
     ) {
         this.id = id;
         this.name = name;
         this.brand = brand;
         this.category = category;
-        this.price = price;
+        this.rating = rating;
         this.features = features;
     }
+
 
     public int getId() {
         return id;
     }
 
+
     public String getName() {
         return name;
     }
+
 
     public String getBrand() {
         return brand;
     }
 
+
     public String getCategory() {
         return category;
     }
 
-    public double getPrice() {
-        return price;
+
+    public double getRating() {
+        return rating;
     }
+
 
     public List<Feature> getFeatures() {
         return features;
     }
 
-    public int getFeatureScore(String featureName) {
 
-        for (Feature feature : features) {
+    public double getFeatureScore(String featureName) {
 
-            if (feature.getName().equalsIgnoreCase(featureName)) {
+        for(Feature feature : features){
+
+            if(feature.getName().equalsIgnoreCase(featureName)){
                 return feature.getScore();
             }
         }
 
         return 0;
-    }
-
-    @Override
-    public String toString() {
-
-        return name +
-                " | " +
-                brand +
-                " | ₹" +
-                price +
-                " | " +
-                features;
     }
 }

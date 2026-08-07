@@ -8,49 +8,71 @@ import java.util.List;
 import DecisionIQ.Backend.model.Feature;
 import DecisionIQ.Backend.model.Product;
 
+
 public class CSVProductReader {
+
 
     public List<Product> readProducts(String filePath) {
 
         List<Product> products = new ArrayList<>();
 
-        try {
 
-            BufferedReader reader =
-                    new BufferedReader(
-                            new FileReader(filePath)
-                    );
+        try (
+                BufferedReader reader =
+                        new BufferedReader(
+                                new FileReader(filePath)
+                        )
+        ) {
 
-            String line;
 
             // Skip CSV header
             reader.readLine();
 
+
+            String line;
+
+
             while ((line = reader.readLine()) != null) {
+
 
                 String[] data = line.split(",");
 
-                List<Feature> features = new ArrayList<>();
+
+                List<Feature> features =
+                        new ArrayList<>();
+
 
                 String featureData = data[5];
+
 
                 String[] featurePairs =
                         featureData.split("\\|");
 
+
                 for (String pair : featurePairs) {
+
 
                     String[] feature =
                             pair.split(":");
 
-                    String name = feature[0];
+
+                    String name =
+                            feature[0];
+
 
                     int score =
                             Integer.parseInt(feature[1]);
 
+
                     features.add(
-                            new Feature(name, score)
+                            new Feature(
+                                    name,
+                                    score
+                            )
                     );
                 }
+
+
 
                 Product product =
                         new Product(
@@ -62,20 +84,27 @@ public class CSVProductReader {
                                 features
                         );
 
+
                 products.add(product);
+
             }
 
-            reader.close();
 
         } catch (Exception e) {
 
+
             System.out.println(
-                    "Error reading product data"
+                    "Error reading product CSV file"
             );
 
+
             e.printStackTrace();
+
         }
 
+
         return products;
+
     }
+
 }
