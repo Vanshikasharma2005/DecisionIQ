@@ -44,30 +44,31 @@ function App() {
 
   const bestMatch = recommendations[0];
 
-  const getPriorityScore = (featureName) => {
-    const priorities = {
-      performance: Number(performance),
-      battery: Number(battery),
-      display: Number(display),
-      value: Number(value),
-    };
-
-    return priorities[featureName] ?? 0;
+  const priorities = {
+    performance: Number(performance),
+    battery: Number(battery),
+    display: Number(display),
+    value: Number(value),
   };
 
+  const formatPrice = (price) =>
+    Number(price).toLocaleString("en-IN");
+
   return (
-    <main className="app">
-      <section className="hero">
+    <div className="app">
+      {/* HEADER */}
+
+      <header className="hero">
         <div className="eyebrow">AI PRODUCT DECISION ENGINE</div>
 
-        <h1>
-          Decision<span>IQ</span>
-        </h1>
+        <h1>DecisionIQ</h1>
 
         <p>
           Smart product recommendations based on your budget and priorities.
         </p>
-      </section>
+      </header>
+
+      {/* REQUIREMENTS */}
 
       <section className="requirements-section">
         <div className="section-number">01</div>
@@ -78,14 +79,11 @@ function App() {
         </div>
 
         <div className="form">
-          <div className="budget-control">
-            <div className="control-header">
-              <label>Budget</label>
-
-              <strong>
-                ₹{Number(budget).toLocaleString("en-IN")}
-              </strong>
-            </div>
+          <label>
+            <span>
+              Budget
+              <strong>₹{formatPrice(budget)}</strong>
+            </span>
 
             <input
               type="number"
@@ -93,140 +91,155 @@ function App() {
               value={budget}
               onChange={(e) => setBudget(e.target.value)}
             />
-          </div>
+          </label>
 
-          <div className="priority-grid">
-            <div className="priority-control">
-              <div className="control-header">
-                <label>Performance Priority</label>
-                <strong>{performance}</strong>
-              </div>
+          <label>
+            <span>
+              Performance Priority
+              <strong>{performance}</strong>
+            </span>
 
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={performance}
-                onChange={(e) => setPerformance(e.target.value)}
-              />
-            </div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={performance}
+              onChange={(e) => setPerformance(e.target.value)}
+            />
+          </label>
 
-            <div className="priority-control">
-              <div className="control-header">
-                <label>Battery Priority</label>
-                <strong>{battery}</strong>
-              </div>
+          <label>
+            <span>
+              Battery Priority
+              <strong>{battery}</strong>
+            </span>
 
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={battery}
-                onChange={(e) => setBattery(e.target.value)}
-              />
-            </div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={battery}
+              onChange={(e) => setBattery(e.target.value)}
+            />
+          </label>
 
-            <div className="priority-control">
-              <div className="control-header">
-                <label>Display Priority</label>
-                <strong>{display}</strong>
-              </div>
+          <label>
+            <span>
+              Display Priority
+              <strong>{display}</strong>
+            </span>
 
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={display}
-                onChange={(e) => setDisplay(e.target.value)}
-              />
-            </div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={display}
+              onChange={(e) => setDisplay(e.target.value)}
+            />
+          </label>
 
-            <div className="priority-control">
-              <div className="control-header">
-                <label>Value Priority</label>
-                <strong>{value}</strong>
-              </div>
+          <label>
+            <span>
+              Value Priority
+              <strong>{value}</strong>
+            </span>
 
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-              />
-            </div>
-          </div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+            />
+          </label>
 
           <button
             className="recommend-button"
             onClick={handleRecommendations}
             disabled={loading}
           >
-            {loading ? "ANALYZING..." : "GET RECOMMENDATIONS"}
-
-            <span>→</span>
+            {loading ? "ANALYZING..." : "GET RECOMMENDATIONS →"}
           </button>
         </div>
       </section>
 
       {error && <div className="error">{error}</div>}
 
+      {/* VERDICT */}
+
       {bestMatch && (
-        <section className="decision-summary">
-          <div className="summary-label">DECISIONIQ VERDICT</div>
+        <section className="verdict-section">
+          <div className="verdict-label">DECISIONIQ VERDICT</div>
 
-          <div className="summary-content">
-            <div>
-              <span className="summary-kicker">BEST MATCH</span>
+          <div className="verdict-card">
+            <div className="verdict-top">
+              <div>
+                <span className="best-label">★ BEST MATCH</span>
 
-              <h2>{bestMatch.product.name}</h2>
+                <h2>{bestMatch.product.name}</h2>
 
-              <p>
-                {bestMatch.product.brand} ·{" "}
-                {bestMatch.product.category}
-              </p>
+                <p className="verdict-brand">
+                  {bestMatch.product.brand} ·{" "}
+                  {bestMatch.product.category}
+                </p>
+              </div>
+
+              <div className="verdict-score">
+                <span>IQ SCORE</span>
+                <strong>{bestMatch.score.toFixed(2)}</strong>
+              </div>
             </div>
 
-            <div className="summary-score">
-              <span>IQ SCORE</span>
-              <strong>{bestMatch.score.toFixed(2)}</strong>
-            </div>
-          </div>
+            <div className="verdict-price">
+              <div>
+                <span>Budget</span>
+                <strong>
+                  ₹{formatPrice(bestMatch.product.price)}
+                </strong>
+              </div>
 
-          <div className="summary-grid">
-            <div className="summary-item">
-              <span>Budget</span>
-
-              <strong>
-                ₹
-                {bestMatch.product.price.toLocaleString("en-IN")}
-              </strong>
-
-              <small>
-                {bestMatch.product.price <= Number(budget)
+              <div
+                className={
+                  Number(bestMatch.product.price) <= Number(budget)
+                    ? "within-budget"
+                    : "over-budget"
+                }
+              >
+                {Number(bestMatch.product.price) <= Number(budget)
                   ? "Within your budget"
                   : "Above your budget"}
-              </small>
+              </div>
             </div>
 
-            {bestMatch.product.features?.map((feature) => (
-              <div
-                className="summary-item"
-                key={feature.name}
-              >
-                <span>{feature.name}</span>
+            <div className="priority-grid">
+              {bestMatch.product.features.map((feature) => (
+                <div className="priority-item" key={feature.name}>
+                  <div className="priority-name">
+                    <span>{feature.name}</span>
+                    <strong>{feature.score}/100</strong>
+                  </div>
 
-                <strong>{feature.score}/100</strong>
+                  <div className="priority-bar">
+                    <div
+                      className="priority-fill"
+                      style={{
+                        width: `${feature.score}%`,
+                      }}
+                    />
+                  </div>
 
-                <small>
-                  Your priority:{" "}
-                  {getPriorityScore(feature.name)}/100
-                </small>
-              </div>
-            ))}
+                  <small>
+                    Your priority:{" "}
+                    {priorities[feature.name] ?? 0}/100
+                  </small>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       )}
+
+      {/* RECOMMENDATIONS */}
 
       {recommendations.length > 0 && (
         <section className="recommendations-section">
@@ -234,7 +247,6 @@ function App() {
 
           <div className="section-heading">
             <h2>Recommended For You</h2>
-
             <p>
               Ranked according to your budget and selected priorities.
             </p>
@@ -254,43 +266,33 @@ function App() {
                   </div>
                 )}
 
-                <div className="product-top">
+                <div className="card-top">
                   <span className="category">
                     {result.product.category}
                   </span>
 
-                  <span className="score-label">
-                    IQ SCORE
-
-                    <strong>
-                      {result.score.toFixed(2)}
-                    </strong>
+                  <span className="card-score">
+                    IQ SCORE {result.score.toFixed(2)}
                   </span>
                 </div>
 
-                <div className="product-info">
-                  <h3>{result.product.name}</h3>
+                <h3>{result.product.name}</h3>
 
-                  <p className="brand">
-                    {result.product.brand}
-                  </p>
+                <p className="brand">
+                  {result.product.brand}
+                </p>
 
-                  <div className="price">
-                    ₹
-                    {result.product.price.toLocaleString(
-                      "en-IN"
-                    )}
-                  </div>
+                <div className="card-price">
+                  ₹{formatPrice(result.product.price)}
                 </div>
 
-                <div className="features">
-                  {result.product.features?.map((feature) => (
+                <div className="feature-grid">
+                  {result.product.features.map((feature) => (
                     <div
                       className="feature"
                       key={feature.name}
                     >
                       <span>{feature.name}</span>
-
                       <strong>{feature.score}</strong>
                     </div>
                   ))}
@@ -300,14 +302,12 @@ function App() {
                   <h4>Why this product?</h4>
 
                   <ul>
-                    {result.reasons.map(
-                      (reason, reasonIndex) => (
-                        <li key={reasonIndex}>
-                          <span>✓</span>
-                          {reason}
-                        </li>
-                      )
-                    )}
+                    {result.reasons.map((reason, reasonIndex) => (
+                      <li key={reasonIndex}>
+                        <span>✓</span>
+                        {reason}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </article>
@@ -315,22 +315,18 @@ function App() {
           </div>
 
           {recommendations.length > 5 && (
-            <div className="show-all-container">
-              <button
-                className="show-all-button"
-                onClick={() => setShowAll(!showAll)}
-              >
-                {showAll
-                  ? "SHOW TOP 5"
-                  : `SHOW ALL ${recommendations.length} RECOMMENDATIONS`}
-
-                <span>{showAll ? "↑" : "↓"}</span>
-              </button>
-            </div>
+            <button
+              className="show-all-button"
+              onClick={() => setShowAll((current) => !current)}
+            >
+              {showAll
+                ? "SHOW TOP 5 RECOMMENDATIONS ↑"
+                : `SHOW ALL ${recommendations.length} RECOMMENDATIONS ↓`}
+            </button>
           )}
         </section>
       )}
-    </main>
+    </div>
   );
 }
 
