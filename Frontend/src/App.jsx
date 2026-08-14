@@ -1,41 +1,31 @@
 import { useState } from "react";
 import "./App.css";
+import { getRecommendations } from "./api/decisionApi";
 
 function App() {
   const [budget, setBudget] = useState(50000);
   const [performance, setPerformance] = useState(80);
   const [battery, setBattery] = useState(80);
-  const [price, setPrice] = useState(80);
+  const [display, setDisplay] = useState(80);
+  const [value, setValue] = useState(80);
 
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const getRecommendations = async () => {
+  const handleRecommendations = async () => {
     setLoading(true);
     setError("");
+    setRecommendations([]);
 
     try {
-      const response = await fetch("http://localhost:8080/api/recommend", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          budget: Number(budget),
-          preferences: {
-            performance: Number(performance),
-            battery: Number(battery),
-            price: Number(price),
-          },
-        }),
+      const data = await getRecommendations(budget, {
+        performance,
+        battery,
+        display,
+        value,
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to get recommendations");
-      }
-
-      const data = await response.json();
       setRecommendations(data);
     } catch (err) {
       setError(
@@ -49,13 +39,16 @@ function App() {
   return (
     <div className="app">
       <h1>DecisionIQ</h1>
+
       <p>Smart Product Recommendation System</p>
 
       <div className="form">
         <label>
-          Budget
+          Budget: ₹{budget}
+
           <input
             type="number"
+            min="0"
             value={budget}
             onChange={(e) => setBudget(e.target.value)}
           />
@@ -63,6 +56,7 @@ function App() {
 
         <label>
           Performance Priority: {performance}
+
           <input
             type="range"
             min="0"
@@ -74,6 +68,7 @@ function App() {
 
         <label>
           Battery Priority: {battery}
+
           <input
             type="range"
             min="0"
@@ -84,34 +79,64 @@ function App() {
         </label>
 
         <label>
-          Price Priority: {price}
+          Display Priority: {display}
+
           <input
             type="range"
             min="0"
             max="100"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            value={display}
+            onChange={(e) => setDisplay(e.target.value)}
           />
         </label>
 
-        <button onClick={getRecommendations} disabled={loading}>
+        <label>
+          Value Priority: {value}
+
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+        </label>
+
+        <button
+          onClick={handleRecommendations}
+          disabled={loading}
+        >
           {loading ? "Finding..." : "Get Recommendations"}
         </button>
       </div>
 
-      {error && <p className="error">{error}</p>}
+      {error && (
+        <p className="error">
+          {error}
+        </p>
+      )}
 
       <div className="recommendations">
         {recommendations.map((result, index) => (
-          <div className="product-card" key={index}>
+          <div
+            className="product-card"
+            key={result.product.id || index}
+          >
             <h2>{result.product.name}</h2>
 
             <p>
-              <strong>Brand:</strong> {result.product.brand}
+              <strong>Brand:</strong>{" "}
+              {result.product.brand}
             </p>
 
             <p>
-              <strong>Price:</strong> ₹{result.product.price}
+              <strong>Category:</strong>{" "}
+              {result.product.category}
+            </p>
+
+            <p>
+              <strong>Price:</strong>{" "}
+              ₹{result.product.price.toLocaleString("en-IN")}
             </p>
 
             <p>
@@ -123,7 +148,9 @@ function App() {
 
             <ul>
               {result.reasons.map((reason, reasonIndex) => (
-                <li key={reasonIndex}>{reason}</li>
+                <li key={reasonIndex}>
+                  {reason}
+                </li>
               ))}
             </ul>
           </div>
