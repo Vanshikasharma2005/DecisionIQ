@@ -37,30 +37,29 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <header className="hero">
-        <div className="hero-badge">AI PRODUCT DECISION ENGINE</div>
+    <main className="app">
+      <section className="hero">
+        <div className="eyebrow">AI PRODUCT DECISION ENGINE</div>
 
-        <h1>DecisionIQ</h1>
+        <h1>Decision<span>IQ</span></h1>
 
         <p>
           Smart product recommendations based on your budget and priorities.
         </p>
-      </header>
+      </section>
 
-      <section className="form-section">
+      <section className="requirements-section">
+        <div className="section-number">01</div>
+
         <div className="section-heading">
-          <span>01</span>
-          <div>
-            <h2>Your Requirements</h2>
-            <p>Tell DecisionIQ what matters most to you.</p>
-          </div>
+          <h2>Your Requirements</h2>
+          <p>Tell DecisionIQ what matters most to you.</p>
         </div>
 
         <div className="form">
-          <label>
-            <div className="label-row">
-              <span>Budget</span>
+          <div className="budget-control">
+            <div className="control-header">
+              <label>Budget</label>
               <strong>
                 ₹{Number(budget).toLocaleString("en-IN")}
               </strong>
@@ -72,67 +71,69 @@ function App() {
               value={budget}
               onChange={(e) => setBudget(e.target.value)}
             />
-          </label>
+          </div>
 
-          <label>
-            <div className="label-row">
-              <span>Performance Priority</span>
-              <strong>{performance}</strong>
+          <div className="priority-grid">
+            <div className="priority-control">
+              <div className="control-header">
+                <label>Performance Priority</label>
+                <strong>{performance}</strong>
+              </div>
+
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={performance}
+                onChange={(e) => setPerformance(e.target.value)}
+              />
             </div>
 
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={performance}
-              onChange={(e) => setPerformance(e.target.value)}
-            />
-          </label>
+            <div className="priority-control">
+              <div className="control-header">
+                <label>Battery Priority</label>
+                <strong>{battery}</strong>
+              </div>
 
-          <label>
-            <div className="label-row">
-              <span>Battery Priority</span>
-              <strong>{battery}</strong>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={battery}
+                onChange={(e) => setBattery(e.target.value)}
+              />
             </div>
 
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={battery}
-              onChange={(e) => setBattery(e.target.value)}
-            />
-          </label>
+            <div className="priority-control">
+              <div className="control-header">
+                <label>Display Priority</label>
+                <strong>{display}</strong>
+              </div>
 
-          <label>
-            <div className="label-row">
-              <span>Display Priority</span>
-              <strong>{display}</strong>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={display}
+                onChange={(e) => setDisplay(e.target.value)}
+              />
             </div>
 
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={display}
-              onChange={(e) => setDisplay(e.target.value)}
-            />
-          </label>
+            <div className="priority-control">
+              <div className="control-header">
+                <label>Value Priority</label>
+                <strong>{value}</strong>
+              </div>
 
-          <label>
-            <div className="label-row">
-              <span>Value Priority</span>
-              <strong>{value}</strong>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+              />
             </div>
-
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-            />
-          </label>
+          </div>
 
           <button
             className="recommend-button"
@@ -140,7 +141,7 @@ function App() {
             disabled={loading}
           >
             {loading ? "ANALYZING..." : "GET RECOMMENDATIONS"}
-            {!loading && <span>→</span>}
+            <span>→</span>
           </button>
         </div>
       </section>
@@ -148,15 +149,14 @@ function App() {
       {error && <div className="error">{error}</div>}
 
       {recommendations.length > 0 && (
-        <section className="results-section">
+        <section className="recommendations-section">
+          <div className="section-number">02</div>
+
           <div className="section-heading">
-            <span>02</span>
-            <div>
-              <h2>Recommended For You</h2>
-              <p>
-                Ranked according to your budget and selected priorities.
-              </p>
-            </div>
+            <h2>Recommended For You</h2>
+            <p>
+              Ranked according to your budget and selected priorities.
+            </p>
           </div>
 
           <div className="recommendations">
@@ -169,60 +169,54 @@ function App() {
               >
                 {index === 0 && (
                   <div className="best-match-badge">
-                    <span>★</span>
-                    BEST MATCH
+                    ★ BEST MATCH
                   </div>
                 )}
 
                 <div className="product-top">
-                  <div>
-                    <span className="product-category">
-                      {result.product.category}
-                    </span>
+                  <span className="category">
+                    {result.product.category}
+                  </span>
 
-                    <h3>{result.product.name}</h3>
-
-                    <p className="brand">
-                      {result.product.brand}
-                    </p>
-                  </div>
-
-                  <div className="score">
-                    <span>IQ SCORE</span>
+                  <span className="score-label">
+                    IQ SCORE
                     <strong>{result.score.toFixed(2)}</strong>
-                  </div>
+                  </span>
                 </div>
 
-                <div className="price">
-                  ₹{result.product.price.toLocaleString("en-IN")}
+                <div className="product-info">
+                  <h3>{result.product.name}</h3>
+
+                  <p className="brand">
+                    {result.product.brand}
+                  </p>
+
+                  <div className="price">
+                    ₹{result.product.price.toLocaleString("en-IN")}
+                  </div>
                 </div>
 
                 <div className="features">
-                  {result.product.features.map((feature, featureIndex) => (
-                    <div className="feature" key={featureIndex}>
-                      <div className="feature-heading">
-                        <span>{feature.name}</span>
-                        <strong>{feature.score}</strong>
-                      </div>
-
-                      <div className="feature-bar">
-                        <div
-                          className="feature-progress"
-                          style={{
-                            width: `${feature.score}%`,
-                          }}
-                        />
-                      </div>
+                  {result.product.features?.map((feature) => (
+                    <div
+                      className="feature"
+                      key={feature.name}
+                    >
+                      <span>{feature.name}</span>
+                      <strong>{feature.score}</strong>
                     </div>
                   ))}
                 </div>
 
-                <div className="why">
+                <div className="reasons">
                   <h4>Why this product?</h4>
 
                   <ul>
                     {result.reasons.map((reason, reasonIndex) => (
-                      <li key={reasonIndex}>{reason}</li>
+                      <li key={reasonIndex}>
+                        <span>✓</span>
+                        {reason}
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -231,7 +225,7 @@ function App() {
           </div>
         </section>
       )}
-    </div>
+    </main>
   );
 }
 
