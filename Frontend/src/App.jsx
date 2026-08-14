@@ -44,7 +44,7 @@ function App() {
 
       <div className="form">
         <label>
-          Budget: ₹{budget}
+          Budget: ₹{Number(budget).toLocaleString("en-IN")}
 
           <input
             type="number"
@@ -102,60 +102,59 @@ function App() {
           />
         </label>
 
-        <button
-          onClick={handleRecommendations}
-          disabled={loading}
-        >
+        <button onClick={handleRecommendations} disabled={loading}>
           {loading ? "Finding..." : "Get Recommendations"}
         </button>
       </div>
 
-      {error && (
-        <p className="error">
-          {error}
-        </p>
+      {error && <p className="error">{error}</p>}
+
+      {recommendations.length > 0 && (
+        <div className="recommendations">
+          {recommendations.map((result, index) => (
+            <div
+              className={`product-card ${
+                index === 0 ? "best-match" : ""
+              }`}
+              key={result.product.id || index}
+            >
+              {index === 0 && (
+                <div className="best-match-badge">
+                  🏆 BEST MATCH
+                </div>
+              )}
+
+              <h2>{result.product.name}</h2>
+
+              <p>
+                <strong>Brand:</strong> {result.product.brand}
+              </p>
+
+              <p>
+                <strong>Category:</strong> {result.product.category}
+              </p>
+
+              <p>
+                <strong>Price:</strong>{" "}
+                ₹{result.product.price.toLocaleString("en-IN")}
+              </p>
+
+              <div className="score">
+                <span>Recommendation Score</span>
+                <strong>{result.score.toFixed(2)}</strong>
+              </div>
+
+              <h3>Why this product?</h3>
+
+              <ul>
+                {result.reasons.map((reason, reasonIndex) => (
+                  <li key={reasonIndex}>{reason}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       )}
-
-      <div className="recommendations">
-        {recommendations.map((result, index) => (
-          <div
-            className="product-card"
-            key={result.product.id || index}
-          >
-            <h2>{result.product.name}</h2>
-
-            <p>
-              <strong>Brand:</strong>{" "}
-              {result.product.brand}
-            </p>
-
-            <p>
-              <strong>Category:</strong>{" "}
-              {result.product.category}
-            </p>
-
-            <p>
-              <strong>Price:</strong>{" "}
-              ₹{result.product.price.toLocaleString("en-IN")}
-            </p>
-
-            <p>
-              <strong>Recommendation Score:</strong>{" "}
-              {result.score.toFixed(2)}
-            </p>
-
-            <h3>Why this product?</h3>
-
-            <ul>
-              {result.reasons.map((reason, reasonIndex) => (
-                <li key={reasonIndex}>
-                  {reason}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

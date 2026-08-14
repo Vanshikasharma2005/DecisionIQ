@@ -175,3 +175,42 @@ body {
     grid-template-columns: 1fr;
   }
 }
+/* Best Match */
+
+.best-match {
+  border: 2px solid #111827;
+  position: relative;
+}
+
+.best-match-badge {
+  display: inline-block;
+  margin-bottom: 16px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #111827;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.score {
+  margin-top: 20px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.score span {
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.score strong {
+  font-size: 24px;
+  color: #111827;
+}
