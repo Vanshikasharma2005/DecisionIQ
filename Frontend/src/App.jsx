@@ -42,6 +42,19 @@ function App() {
     ? recommendations
     : recommendations.slice(0, 5);
 
+  const bestMatch = recommendations[0];
+
+  const getPriorityScore = (featureName) => {
+    const priorities = {
+      performance: Number(performance),
+      battery: Number(battery),
+      display: Number(display),
+      value: Number(value),
+    };
+
+    return priorities[featureName] ?? 0;
+  };
+
   return (
     <main className="app">
       <section className="hero">
@@ -157,6 +170,63 @@ function App() {
       </section>
 
       {error && <div className="error">{error}</div>}
+
+      {bestMatch && (
+        <section className="decision-summary">
+          <div className="summary-label">DECISIONIQ VERDICT</div>
+
+          <div className="summary-content">
+            <div>
+              <span className="summary-kicker">BEST MATCH</span>
+
+              <h2>{bestMatch.product.name}</h2>
+
+              <p>
+                {bestMatch.product.brand} ·{" "}
+                {bestMatch.product.category}
+              </p>
+            </div>
+
+            <div className="summary-score">
+              <span>IQ SCORE</span>
+              <strong>{bestMatch.score.toFixed(2)}</strong>
+            </div>
+          </div>
+
+          <div className="summary-grid">
+            <div className="summary-item">
+              <span>Budget</span>
+
+              <strong>
+                ₹
+                {bestMatch.product.price.toLocaleString("en-IN")}
+              </strong>
+
+              <small>
+                {bestMatch.product.price <= Number(budget)
+                  ? "Within your budget"
+                  : "Above your budget"}
+              </small>
+            </div>
+
+            {bestMatch.product.features?.map((feature) => (
+              <div
+                className="summary-item"
+                key={feature.name}
+              >
+                <span>{feature.name}</span>
+
+                <strong>{feature.score}/100</strong>
+
+                <small>
+                  Your priority:{" "}
+                  {getPriorityScore(feature.name)}/100
+                </small>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {recommendations.length > 0 && (
         <section className="recommendations-section">
