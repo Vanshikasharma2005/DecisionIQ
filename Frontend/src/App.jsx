@@ -12,11 +12,13 @@ function App() {
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showAll, setShowAll] = useState(false);
 
   const handleRecommendations = async () => {
     setLoading(true);
     setError("");
     setRecommendations([]);
+    setShowAll(false);
 
     try {
       const data = await getRecommendations(budget, {
@@ -36,12 +38,18 @@ function App() {
     }
   };
 
+  const visibleRecommendations = showAll
+    ? recommendations
+    : recommendations.slice(0, 5);
+
   return (
     <main className="app">
       <section className="hero">
         <div className="eyebrow">AI PRODUCT DECISION ENGINE</div>
 
-        <h1>Decision<span>IQ</span></h1>
+        <h1>
+          Decision<span>IQ</span>
+        </h1>
 
         <p>
           Smart product recommendations based on your budget and priorities.
@@ -60,6 +68,7 @@ function App() {
           <div className="budget-control">
             <div className="control-header">
               <label>Budget</label>
+
               <strong>
                 ₹{Number(budget).toLocaleString("en-IN")}
               </strong>
@@ -141,6 +150,7 @@ function App() {
             disabled={loading}
           >
             {loading ? "ANALYZING..." : "GET RECOMMENDATIONS"}
+
             <span>→</span>
           </button>
         </div>
@@ -154,13 +164,14 @@ function App() {
 
           <div className="section-heading">
             <h2>Recommended For You</h2>
+
             <p>
               Ranked according to your budget and selected priorities.
             </p>
           </div>
 
           <div className="recommendations">
-            {recommendations.map((result, index) => (
+            {visibleRecommendations.map((result, index) => (
               <article
                 className={`product-card ${
                   index === 0 ? "best-match" : ""
@@ -180,7 +191,10 @@ function App() {
 
                   <span className="score-label">
                     IQ SCORE
-                    <strong>{result.score.toFixed(2)}</strong>
+
+                    <strong>
+                      {result.score.toFixed(2)}
+                    </strong>
                   </span>
                 </div>
 
@@ -192,7 +206,10 @@ function App() {
                   </p>
 
                   <div className="price">
-                    ₹{result.product.price.toLocaleString("en-IN")}
+                    ₹
+                    {result.product.price.toLocaleString(
+                      "en-IN"
+                    )}
                   </div>
                 </div>
 
@@ -203,6 +220,7 @@ function App() {
                       key={feature.name}
                     >
                       <span>{feature.name}</span>
+
                       <strong>{feature.score}</strong>
                     </div>
                   ))}
@@ -212,17 +230,34 @@ function App() {
                   <h4>Why this product?</h4>
 
                   <ul>
-                    {result.reasons.map((reason, reasonIndex) => (
-                      <li key={reasonIndex}>
-                        <span>✓</span>
-                        {reason}
-                      </li>
-                    ))}
+                    {result.reasons.map(
+                      (reason, reasonIndex) => (
+                        <li key={reasonIndex}>
+                          <span>✓</span>
+                          {reason}
+                        </li>
+                      )
+                    )}
                   </ul>
                 </div>
               </article>
             ))}
           </div>
+
+          {recommendations.length > 5 && (
+            <div className="show-all-container">
+              <button
+                className="show-all-button"
+                onClick={() => setShowAll(!showAll)}
+              >
+                {showAll
+                  ? "SHOW TOP 5"
+                  : `SHOW ALL ${recommendations.length} RECOMMENDATIONS`}
+
+                <span>{showAll ? "↑" : "↓"}</span>
+              </button>
+            </div>
+          )}
         </section>
       )}
     </main>

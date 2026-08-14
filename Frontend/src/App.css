@@ -441,3 +441,45 @@ input {
     gap: 10px;
   }
 }
+.show-all-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.show-all-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  padding: 15px 22px;
+  border: 1px solid #333333;
+  border-radius: 12px;
+  background: transparent;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.show-all-button span {
+  color: #ff3030;
+  font-size: 18px;
+}
+
+.show-all-button:hover {
+  border-color: #ff3030;
+  background: #111111;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 500px) {
+  .show-all-button {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
